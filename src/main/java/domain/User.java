@@ -1,16 +1,14 @@
 package domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
@@ -20,7 +18,7 @@ public class User {
     private boolean isAdmin;
 
     @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    private List<OrderEntity> orderEntities;
 
     public User() {};
 
@@ -72,12 +70,12 @@ public class User {
         isAdmin = admin;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<OrderEntity> getOrders() {
+        return orderEntities;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setOrders(List<OrderEntity> orderEntities) {
+        this.orderEntities = orderEntities;
     }
 
 }

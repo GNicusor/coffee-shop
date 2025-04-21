@@ -1,9 +1,6 @@
 package domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class OrderItem {
@@ -12,7 +9,8 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
-    private Order order;
+    @JoinColumn(name = "order_id") // face legătura cu OrderEntity
+    private OrderEntity order;
 
     @ManyToOne
     private Coffee coffee;
@@ -30,13 +28,13 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Order getOrder() {
-        return order;
-    }
+//    public OrderEntity getOrder() {
+//        return orderEntity;
+//    }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+//    public void setOrder(OrderEntity orderEntity) {
+//        this.orderEntity = orderEntity;
+//    }
 
     public Coffee getCoffee() {
         return coffee;

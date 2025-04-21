@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Order {
+@Table(name = "orders")
+public class OrderEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -20,7 +21,7 @@ public class Order {
     private LocalDateTime orderDate;
     private boolean paid;
 
-    public Order() {};
+    public OrderEntity() {};
 
     public Long getId() {
         return id;
