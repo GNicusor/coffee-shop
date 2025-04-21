@@ -23,7 +23,7 @@ public class AuthController {
         return authService.register(request);
     }
 
-    @PostMapping("/verify")
+    @PostMapping("/verify-code")
     public ResponseEntity<String> verify(@RequestBody VerifyCodeRequest request) {
         return authService.verifyCode(request);
     }
