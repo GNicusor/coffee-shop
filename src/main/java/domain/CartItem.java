@@ -1,10 +1,14 @@
 package domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Table(name = "cart_items",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"cart_id","coffee_id"}))
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 public class CartItem {
 
@@ -19,38 +23,9 @@ public class CartItem {
     @ManyToOne
     private User user;
 
-    public CartItem () {};
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Coffee getCoffee() {
-        return coffee;
-    }
-
-    public void setCoffee(Coffee coffee) {
-        this.coffee = coffee;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
 
