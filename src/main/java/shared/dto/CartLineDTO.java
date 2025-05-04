@@ -37,8 +37,4 @@ public class CartLineDTO {
                 total
         );
     }
-
-    // getters & setters …
-
-    // (generate or Lombok @Getter/@Setter if you’re using Lombok elsewhere)
 }

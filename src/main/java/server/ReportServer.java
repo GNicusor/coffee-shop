@@ -1,10 +1,12 @@
 package server;
 
 import domain.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import repository.UserRepository;
 import service.CartService;
 import shared.dto.AddLineCmd;
 import shared.dto.CartDTO;
@@ -18,6 +20,10 @@ public class ReportServer {
 
     @Autowired
     private CartService service;
+
+    @Autowired
+    private UserRepository users;
+
  /*
  * @RequestMapping(value = "allMetStations", method = RequestMethod.GET)
 	@PermitAll
@@ -38,22 +44,21 @@ public class ReportServer {
 	}
   */
 
+    /** POST /api/cart/items  (body: { coffeeId, qty }) */
     @GetMapping
-    public CartDTO view(@AuthenticationPrincipal User user) {
+    public CartDTO view(@RequestParam Integer userId) {
+        User user = users.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("user"));
         return CartDTO.of(service.getActiveCart(user));
     }
 
-    /** POST /api/cart/items  (body: { coffeeId, qty }) */
+    /* POST /api/cart/items?userId=7   body: { coffeeId, qty } */
     @PostMapping("/items")
-    public CartDTO add(@AuthenticationPrincipal User user,
+    public CartDTO add(@RequestParam Integer userId,
                        @RequestBody AddLineCmd cmd) {
+        User user = users.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("user"));
         return CartDTO.of(service.addItem(user, cmd.coffeeId(), cmd.qty()));
-    }
-
-    /** DELETE /api/cart  → empty basket (optional) */
-    @DeleteMapping
-    public void clear(@AuthenticationPrincipal User user) {
-        service.clearCart(user);
     }
 
 }

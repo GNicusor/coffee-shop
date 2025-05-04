@@ -29,6 +29,7 @@ public class CartService {
                         Cart.builder().user(user).build()));
     }
 
+    //THIS FUNCTION USED TO ADD ITEM TO THE CART {:P
     public Cart addItem(User user, Long coffeeId, int qty) {
         Cart cart = getActiveCart(user);
 
@@ -45,12 +46,12 @@ public class CartService {
                                 .build()));
 
         line.setQuantity(line.getQuantity() + qty);
-        return cart;            // flushed on tx commit
+        return cart;
     }
 
     public void clearCart(User user) {
         Cart cart = getActiveCart(user);
-        cart.getItems().clear();   // orphanRemoval=true deletes rows
+        cart.getItems().clear();
     }
 }
 
