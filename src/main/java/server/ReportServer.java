@@ -6,10 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import repository.CoffeeRepository;
 import repository.UserRepository;
 import service.CartService;
 import shared.dto.AddLineCmd;
 import shared.dto.CartDTO;
+import shared.dto.CoffeeDTO;
+
+import java.util.List;
 
 //class where all the requests will be processed
 //in this class , we gonna gather all the information
@@ -23,6 +27,9 @@ public class ReportServer {
 
     @Autowired
     private UserRepository users;
+
+    @Autowired
+    private CoffeeRepository coffeeRepo;
 
  /*
  * @RequestMapping(value = "allMetStations", method = RequestMethod.GET)
@@ -59,6 +66,13 @@ public class ReportServer {
         User user = users.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("user"));
         return CartDTO.of(service.addItem(user, cmd.coffeeId(), cmd.qty()));
+    }
+
+    @GetMapping("/coffees")
+    public List<CoffeeDTO> getAllCoffees() {
+        return coffeeRepo.findAll().stream()
+                .map(CoffeeDTO::of)
+                .toList();
     }
 
 }
