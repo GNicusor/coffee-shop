@@ -52,16 +52,16 @@ public class ReportServer {
   */
 
     /** POST /api/cart/items  (body: { coffeeId, qty }) */
-    @GetMapping
-    public CartDTO view(@RequestParam Integer userId) {
+    @GetMapping("/view")
+    public CartDTO view(@RequestParam("userId") Long userId) {   // ← explicit
         User user = users.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("user"));
         return CartDTO.of(service.getActiveCart(user));
     }
 
     /* POST /api/cart/items?userId=7   body: { coffeeId, qty } */
-    @PostMapping("/items")
-    public CartDTO add(@RequestParam Integer userId,
+    @PostMapping("/items")                              // POST /reports/items?userId=1
+    public CartDTO add(@RequestParam("userId") Long userId,   // ← explicit name
                        @RequestBody AddLineCmd cmd) {
         User user = users.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("user"));
