@@ -75,4 +75,15 @@ public class ReportServer {
                 .toList();
     }
 
+    @GetMapping("/users")
+    public List<User> listUsers() {
+        return users.findAll();
+    }
+
+    @GetMapping("/user")
+    public User getUser(@RequestParam("id") Long id) {
+        return users.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User " + id));
+    }
+
 }
