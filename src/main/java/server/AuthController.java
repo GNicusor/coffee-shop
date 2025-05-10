@@ -1,11 +1,9 @@
+// server/AuthController.java
 package server;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import domain.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import service.AuthService;
 import shared.LoginRequest;
 import shared.RegisterRequest;
@@ -15,8 +13,10 @@ import shared.VerifyCodeRequest;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
@@ -29,8 +29,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        return authService.login(request);
+    public ResponseEntity<LoginRequest.LoginResponse> login(@RequestBody LoginRequest request) {
+        User user = authService.authenticate(request);
+        return ResponseEntity.ok(
+                new LoginRequest.LoginResponse(user.getId(), "Login successful!")
+        );
     }
 }
-
