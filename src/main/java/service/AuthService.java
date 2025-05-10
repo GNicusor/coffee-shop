@@ -5,6 +5,7 @@ import domain.VerificationCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import repository.UserRepository;
@@ -94,24 +95,32 @@ public class AuthService {
         return ResponseEntity.ok("Email verified successfully. You can now log in.");
     }
 
-    public ResponseEntity<String> login(LoginRequest request) {
-        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
-
-        if (optionalUser.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
-        }
-
-        User user = optionalUser.get();
-
+    public User authenticate(LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
         if (!user.isVerified()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Please verify your email before logging in.");
+            throw new BadCredentialsException("Email not verified");
         }
-
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+            throw new BadCredentialsException("Invalid credentials");
         }
+        return user;
+    }
 
-        return ResponseEntity.ok("Login successful!");
+
+    public ResponseEntity<LoginRequest.LoginResponse> login(LoginRequest request) {
+        Optional<User> opt = userRepository.findByEmail(request.getEmail());
+        if (opt.isEmpty() || !passwordEncoder.matches(request.getPassword(), opt.get().getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new LoginRequest.LoginResponse(null, "Invalid credentials."));
+        }
+        User user = opt.get();
+        if (!user.isVerified()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new LoginRequest.LoginResponse(null, "Please verify your email before logging in."));
+        }
+        // success!
+        return ResponseEntity.ok(new LoginRequest.LoginResponse(user.getId(), "Login successful!"));
     }
 
 }

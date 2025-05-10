@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.UUID;
 
-@Setter
-@Getter
 public class CartDTO {
 
     private UUID id;
@@ -30,4 +28,19 @@ public class CartDTO {
         return new CartDTO(cart.getId(), lines);
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public List<CartLineDTO> getItems() {
+        return items;
+    }
+
+    public void setItems(List<CartLineDTO> items) {
+        this.items = items;
+    }
 }

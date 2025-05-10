@@ -19,4 +19,6 @@ public class LoginRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public record LoginResponse(Long userId, String message) {}
 }

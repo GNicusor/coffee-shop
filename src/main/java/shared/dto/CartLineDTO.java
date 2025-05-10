@@ -38,7 +38,43 @@ public class CartLineDTO {
         );
     }
 
-    // getters & setters …
+    public long getCoffeeId() {
+        return coffeeId;
+    }
 
-    // (generate or Lombok @Getter/@Setter if you’re using Lombok elsewhere)
+    public void setCoffeeId(long coffeeId) {
+        this.coffeeId = coffeeId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public BigDecimal getLineTotal() {
+        return lineTotal;
+    }
+
+    public void setLineTotal(BigDecimal lineTotal) {
+        this.lineTotal = lineTotal;
+    }
 }

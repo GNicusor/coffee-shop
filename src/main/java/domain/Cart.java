@@ -22,6 +22,7 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status = Status.ACTIVE;
@@ -29,6 +30,7 @@ public class Cart {
     @Column(name = "expires_at")
     private Instant expiresAt;
 
+    @Builder.Default
     @OneToMany(mappedBy = "cart",           // "cart" is the field in CartItem
             cascade = CascadeType.ALL,
             orphanRemoval = true,

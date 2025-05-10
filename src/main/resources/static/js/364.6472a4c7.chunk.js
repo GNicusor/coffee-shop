@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkcoino_website=self.webpackChunkcoino_website||[]).push([[364],{364:(e,n,s)=>{s.r(n),s.d(n,{default:()=>d});var c=s(306),t=s(791),i=s(184);const r=()=>(0,i.jsx)(c.YI,{children:(0,i.jsx)(c.WD,{name:"App",children:(0,i.jsx)(c.wA,{name:"Loader",children:(0,i.jsx)(c.$e,{children:(0,i.jsx)(a,{})})})})});function a(){return(0,i.jsx)(t.Fragment,{children:"Loading..."})}const d=()=>(0,i.jsx)(c.Vt,{palette:(0,i.jsx)(r,{})})}}]);
+//# sourceMappingURL=364.6472a4c7.chunk.js.map
