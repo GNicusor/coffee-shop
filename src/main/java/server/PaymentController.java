@@ -34,7 +34,7 @@ public class PaymentController {
                                         .setPriceData(
                                                 SessionCreateParams.LineItem.PriceData.builder()
                                                         .setCurrency("ron")
-                                                        .setUnitAmount(amount)
+                                                        .setUnitAmount(amount*100)
                                                         .setProductData(
                                                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                         .setName("Coffee Order")
