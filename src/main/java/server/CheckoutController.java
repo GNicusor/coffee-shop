@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
 //aici sunt endpointurile prin care tu vei vorbi cand incepe user-ul sa porneasca purchase
 //vezi ca m-am luat dupa tine si la stripeservice cand e succesfully am pus linkurile tale de la paymentcontroller
 //probabil am facut acelasi lucru (payment/stripe service dar mergi pe mana mea)
+/*
+const { sessionId } = await api.post("/api/checkout?userId=1");
+const stripe = await loadStripe(PUBLISHABLE_KEY);
+stripe.redirectToCheckout({ sessionId });
+* */
 @RestController
 @RequestMapping("/api/checkout")
 @RequiredArgsConstructor
