@@ -60,8 +60,10 @@ public class ReportServer {
     }
 
     /* POST /api/cart/items?userId=7   body: { coffeeId, qty } */
-    @PostMapping("/items")                              // POST /reports/items?userId=1
-    public CartDTO add(@RequestParam("userId") Long userId,   // ← explicit name
+    //modified, now you can pass -1 and i will remove that item from the cart (pls pay attention cause it will crash the server
+    //if you pass like -999 or some shit
+    @PostMapping("/items")
+    public CartDTO add(@RequestParam("userId") Long userId,
                        @RequestBody AddLineCmd cmd) {
         User user = users.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("user"));
