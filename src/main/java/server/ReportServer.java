@@ -86,4 +86,14 @@ public class ReportServer {
                 .orElseThrow(() -> new EntityNotFoundException("User " + id));
     }
 
+    @PostMapping("/clear")
+    public CartDTO clear(
+            @RequestParam("userId") Long userId
+    ) {
+        User user = users.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("user"));
+        service.clearCart(user);
+        return CartDTO.of(service.getActiveCart(user));
+    }
+
 }
