@@ -31,26 +31,6 @@ public class ReportServer {
     @Autowired
     private CoffeeRepository coffeeRepo;
 
- /*
- * @RequestMapping(value = "allMetStations", method = RequestMethod.GET)
-	@PermitAll
-	@CrossOrigin
-	public String getMetStations(@RequestParam("time") int time) {
-	    try {
-	        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-	        cal.add(Calendar.HOUR, -time);
-	        Date dat = cal.getTime();
-	        Set<Integer> ids = metRepo.findMetStationIdsWithDateTakenAfter(dat);
-	        List<UserGroup> users = group.findUserGroupsByMetStationIds(ids);
-	        ObjectMapper objectMapper = new ObjectMapper();
-	        String jsonArray = objectMapper.writeValueAsString(users);
-	        return jsonArray;
-	    } catch (Exception t) {
-	        return "An error occurred: " + t.getMessage();
-	    }
-	}
-  */
-
     /** POST /api/cart/items  (body: { coffeeId, qty }) */
     @GetMapping("/view")
     public CartDTO view(@RequestParam("userId") Long userId) {   // ← explicit

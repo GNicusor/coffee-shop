@@ -9,6 +9,7 @@ import com.stripe.model.checkout.Session;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import repository.UserRepository;
 import service.OrderService;
@@ -27,12 +28,14 @@ stripe.redirectToCheckout({ sessionId });
 * */
 @RestController
 @RequestMapping("/api/checkout")
+@CrossOrigin
 @RequiredArgsConstructor
 public class CheckoutController {
 
     private final OrderService   orders;
-    private final UserRepository users;          // ← inject your repo
-    private final String webhookSecret;  // @Value from properties
+    private final UserRepository users;
+    @Value("${stripe.webhook.secret}")
+    String webhookSecret;
 
     /** POST /api/checkout?userId=1  body empty */
     @PostMapping

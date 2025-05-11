@@ -30,27 +30,47 @@ public class CartService {
     }
 
     //THIS FUNCTION USED TO ADD ITEM TO THE CART (or delete items from the cart) {:P
-    public Cart addItem(User user, Long coffeeId, int deltaQty) {
+//    public Cart addItem(User user, Long coffeeId, int deltaQty) {
+//        Cart cart = getActiveCart(user);
+//        Coffee coffee = coffees.findById(coffeeId)
+//                .orElseThrow(() -> new EntityNotFoundException("Coffee"));
+//
+//        CartItem line = items.findByCartAndCoffee(cart, coffee)
+//                .orElseGet(() -> CartItem.builder()
+//                        .cart(cart)
+//                        .coffee(coffee)
+//                        .quantity(0)
+//                        .build());
+//
+//        int newQty = line.getQuantity() + deltaQty;
+//
+//        if (newQty > 0) {
+//            line.setQuantity(newQty);
+//        } else {
+//            cart.getItems().remove(line);
+//        }
+//        return cart;
+//    }
+
+    public Cart addItem(User user, Long coffeeId, int qty) {
         Cart cart = getActiveCart(user);
+
         Coffee coffee = coffees.findById(coffeeId)
-                .orElseThrow(() -> new EntityNotFoundException("Coffee"));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Coffee id " + coffeeId));
 
         CartItem line = items.findByCartAndCoffee(cart, coffee)
-                .orElseGet(() -> CartItem.builder()
-                        .cart(cart)
-                        .coffee(coffee)
-                        .quantity(0)
-                        .build());
+                .orElseGet(() -> items.save(
+                        CartItem.builder()
+                                .cart(cart)
+                                .coffee(coffee)
+                                .quantity(0)
+                                .build()));
 
-        int newQty = line.getQuantity() + deltaQty;
-
-        if (newQty > 0) {
-            line.setQuantity(newQty);
-        } else {
-            cart.getItems().remove(line);
-        }
+        line.setQuantity(line.getQuantity() + qty);
         return cart;
     }
+
 
     public void clearCart(User user) {
         Cart cart = getActiveCart(user);

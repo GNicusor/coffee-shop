@@ -23,9 +23,8 @@ public class OrderService {
     OrderEntityRepository orders;
 
     @Autowired
-    StripeService stripe;          // thin wrapper around stripe‑java
+    StripeService stripe;
 
-    /** Step 1 – user hits "Pay" button */
     public String startCheckout(User user) throws StripeException {
 
         Cart cart = cartService.getActiveCart(user);
