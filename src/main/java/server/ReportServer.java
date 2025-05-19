@@ -1,5 +1,6 @@
 package server;
 
+import domain.Coffee;
 import domain.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,10 @@ import service.CartService;
 import shared.dto.AddLineCmd;
 import shared.dto.CartDTO;
 import shared.dto.CoffeeDTO;
+import shared.dto.StockDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 //class where all the requests will be processed
 //in this class , we gonna gather all the information
@@ -78,4 +81,22 @@ public class ReportServer {
         return CartDTO.of(service.getActiveCart(user));
     }
 
+    @GetMapping("/stock")
+    public List<StockDTO> getAllStock() {
+        return coffeeRepo.findAll().stream()
+                .map(c -> new StockDTO(c.getId(), c.getStock()))
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/stock/decrement")
+    public void decrementStock(@RequestBody List<StockDTO> changes) {
+        for (StockDTO change : changes) {
+            Coffee coffee = coffeeRepo.findById(change.getId())
+                    .orElseThrow(() ->
+                            new EntityNotFoundException("Coffee " + change.getId()));
+            int newStock = coffee.getStock() - change.getStock();
+            coffee.setStock(Math.max(0, newStock));
+            coffeeRepo.save(coffee);
+        }
+    }
 }
