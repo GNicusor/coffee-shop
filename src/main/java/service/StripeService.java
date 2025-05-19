@@ -43,7 +43,6 @@ public class StripeService {
                 .setSuccessUrl("http://localhost:3000/checkout?success=true")
                 .setCancelUrl("http://localhost:3000/checkout?canceled=true")
                 .build();
-
         Session session = Session.create(params);
         return session.getId();
     }

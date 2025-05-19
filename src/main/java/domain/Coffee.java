@@ -14,7 +14,6 @@ public class Coffee {
     private String description;
     private double price;
     private int stock;
-
     public Coffee() {};
 
     public int getStock() {

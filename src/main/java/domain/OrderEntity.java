@@ -1,5 +1,6 @@
 package domain;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +26,8 @@ public class OrderEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>() ;
 
-    @Column(name = "stripe_id", nullable = false, unique = true)
+    @Nullable
+    @Column(name = "stripe_id", unique = true)
     private String stripeId;
 
     @Builder.Default
