@@ -57,37 +57,8 @@ public class PaymentController {
 
 
         Long amount = ((Number) payload.get("amount")).longValue();
-//        Long amount = ((Number)payload.get("amount")).longValue();
-//
-//        SessionCreateParams params =
-//                SessionCreateParams.builder()
-//                        .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-//                        .setMode(SessionCreateParams.Mode.PAYMENT)
-//                        .setSuccessUrl("http://localhost:3000/checkout?success=true")
-//                        .setCancelUrl("http://localhost:3000/checkout?canceled=true")
-//                        .addLineItem(
-//                                SessionCreateParams.LineItem.builder()
-//                                        .setQuantity(1L)
-//                                        .setPriceData(
-//                                                SessionCreateParams.LineItem.PriceData.builder()
-//                                                        .setCurrency("ron")
-//                                                        .setUnitAmount(amount*100)
-//                                                        .setProductData(
-//                                                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
-//                                                                        .setName("Coffee Order")
-//                                                                        .build()
-//                                                        )
-//                                                        .build()
-//                                        )
-//                                        .build()
-//                        )
-//                        .build();
-//        Session session = Session.create(params);
-//        Map<String,String> response = new HashMap<>();
-
         String sessionId = orderService.startCheckout(userId, amount);
 
-        // 2) Return it to your React app
         return Map.of("id", sessionId);
     }
 }
